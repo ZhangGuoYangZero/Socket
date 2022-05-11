@@ -39,6 +39,7 @@ public class Socket_Serve {
         while ( (size = i.read(chars)) != -1) {
             printWriter.println(new String(chars, 0, size));
             printWriter.flush();
+            
         }
         //可以告知读取完毕，如果关闭流就会调用自动关闭socket
         socketAccept.shutdownInput();
