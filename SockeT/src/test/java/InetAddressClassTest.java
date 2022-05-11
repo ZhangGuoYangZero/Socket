@@ -19,7 +19,10 @@ public class InetAddressClassTest {
     public void test1() throws UnknownHostException{
         //根据域名获取InetAdderss对象
         InetAddress i = InetAddress.getByName("www.baidu.com");
+        //根据inet对象获取ip
         System.out.println(i.getHostAddress());
+        //根据inet对象获取域名
+        System.out.println(i.getHostName());
     }
 
 }
