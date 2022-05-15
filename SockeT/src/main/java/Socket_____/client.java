@@ -11,6 +11,13 @@ public class client {
     @Test
     public  void  client() throws IOException {
         Socket socket  = new Socket(InetAddress.getLocalHost(),8888);
+
+        System.out.println("---------------------");
+        System.out.println(socket);
+        System.out.println("---------------------");
+
+
+
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(socket.getOutputStream());
         BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream("src/main/resources/t.jpg"));
         Integer size = 0;

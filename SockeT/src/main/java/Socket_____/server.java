@@ -12,6 +12,9 @@ public class server {
     public void Server() throws IOException {
         ServerSocket  serverSocket = new ServerSocket(8888);
         Socket sockets = serverSocket.accept();
+        System.out.println("---------------------");
+        System.out.println(sockets);
+        System.out.println("---------------------");
 
         BufferedInputStream bufferedInputStream = new BufferedInputStream(sockets.getInputStream());
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream( new FileOutputStream("src/main/resources/b.jpg"));
