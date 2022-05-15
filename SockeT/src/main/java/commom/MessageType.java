@@ -14,11 +14,12 @@ public interface MessageType extends Serializable {
     **/
     public  static  final  String MESSAGE_LOGIN_SUCCESS = "1";
     public  static  final  String MESSAGE_LOGIN_FAILD = "2";
-    public  static  final  String GETPopPack = "3";
+    public  static  final  String COMM_MSG = "3";
     public  static  final  String GET_ONLINE_P = "4";
     public  static  final  String SEND_ONLINE_P = "5";
     public  static  final  String END_get = "7";
     public  static  final  String END_res = "8";
+    public  static  final  String hisper = "9";
 
 }
 

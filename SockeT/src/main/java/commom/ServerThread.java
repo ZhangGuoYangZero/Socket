@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashMap;
 
 public  class ServerThread extends Thread {
     private Socket socket = null;
@@ -37,6 +38,23 @@ public  class ServerThread extends Thread {
                     socket.shutdownInput();
                     socket.close();
                     loop = false;
+                }else if(msg.getMsgType().equals(MessageType.hisper)){
+                    System.out.println(msg.getSender() + "对" + msg.getGetSender() + "发送了私聊");
+                    msg1 = new Message(msg.getSender(),msg.getGetSender(),msg.getContent(),"");
+                    msg1.setMsgType(MessageType.hisper);
+                    Socket socket = ManagerServerThread.getServerThread(msg.getGetSender()).getSocket();
+                    Write(socket,msg1);
+                }else if(msg.getMsgType().equals(MessageType.COMM_MSG)){
+                    System.out.println('\n'+msg.getSender() +"群发了消息");
+                    msg1 = new Message(msg.getSender(),"",msg.getContent(),"");
+                    msg1.setMsgType(MessageType.COMM_MSG);
+                    msg1.setGetSender("所有人");
+                    HashMap<String, ServerThread> hashMap = ManagerServerThread.getHashMap();
+                    for (ServerThread serverThread :hashMap.values()) {
+                        Socket socket = serverThread.getSocket();
+                        Write(socket,msg1);
+                    }
+
                 }
 
             } catch (IOException e) {
@@ -54,6 +72,7 @@ public  class ServerThread extends Thread {
     public  static  void  Write(Socket socket,Message msg1) throws IOException {
         ObjectOutputStream objMsg = new ObjectOutputStream(socket.getOutputStream());
         objMsg.writeObject(msg1);
+        objMsg.flush();
     }
 
     public Socket getSocket() {

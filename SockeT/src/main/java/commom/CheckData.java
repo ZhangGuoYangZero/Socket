@@ -83,8 +83,7 @@ class ClientThread extends Thread {
                 if(msg.getMsgType().equals(MessageType.SEND_ONLINE_P)){
                     String[] userId = msg.getContent().split(" ");
                     for (String s :userId) {
-                        System.out.println();
-                        System.out.println("用户: " + s);
+                        System.out.println('\n'+"用户: " + s);
                     }
 
                 }else if(msg.getMsgType().equals(MessageType.END_res)){
@@ -94,8 +93,10 @@ class ClientThread extends Thread {
                     loop = false;
                     ManagerSocketThread.getHashMap().remove(useID);
 
-                }else {
-
+                }else if (msg.getMsgType().equals(MessageType.hisper)){
+                    System.out.print('\n' + msg.getSender() + "对" + useID + "说:" + msg.getContent()+"\n");
+                }else if(msg.getMsgType().equals(MessageType.COMM_MSG)){
+                    System.out.println('\n'+msg.getSender() + "对" + msg.getGetSender()+ "说:" +  msg.getContent());
                 }
 
 

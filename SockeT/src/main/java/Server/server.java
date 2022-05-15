@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -40,7 +41,8 @@ public class server {
         ObjectInputStream objUser = null;
         ObjectOutputStream objMsg = null;
         Message message = null;
-
+        ServerSend serverSend = new ServerSend();
+        serverSend.start();
 
         while (loop) {
             socket = sockets.accept();
@@ -95,6 +97,41 @@ public class server {
         if (objMsg != null)
             objMsg.close();
         socket.close();
+    }
+}
+
+class  ServerSend extends  Thread{
+    @Override
+    public void run() {
+        boolean loop = true;
+        Scanner scanner = new Scanner(System.in);
+        while (loop) {
+            System.out.println("服务端群发消息！");
+            String text = scanner.nextLine();
+            if(text.equals("exit")) {
+                System.out.println("群发退出！");
+                loop =false;
+                break;
+            }
+            Message message = new Message();
+            message.setMsgType(MessageType.COMM_MSG);
+            message.setContent(text);
+            message.setSender("server");
+            message.setGetSender("所有人");
+            HashMap<String, ServerThread> hashMap = ManagerServerThread.getHashMap();
+            for (ServerThread serverThread :hashMap.values()) {
+                Socket socket = serverThread.getSocket();
+                try {
+                    ObjectOutputStream objMsg = new ObjectOutputStream(socket.getOutputStream());
+                    objMsg.writeObject(message);
+                    objMsg.flush();
+                } catch (IOException e) {
+                    System.out.println("服务的群发消息错误");
+                    e.printStackTrace();
+                }
+            }
+
+        }
     }
 }
 
