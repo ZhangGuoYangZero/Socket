@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+
 
 import commom.*;
 
@@ -67,7 +67,7 @@ public class server {
                         message = new Message();
                         message.setMsgType(MessageType.MESSAGE_LOGIN_SUCCESS);
                         objMsg.writeObject(message);
-                        ServerThread serverThread = new ServerThread(socket, user.getId());
+                        ServerThread serverThread = new ServerThread(socket, user.getId(),concurrentHashMapM);
                         serverThread.start();
                         ManagerServerThread.addServerThread(user.getId(), serverThread);
 

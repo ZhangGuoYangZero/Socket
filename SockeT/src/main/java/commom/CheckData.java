@@ -1,8 +1,6 @@
 package commom;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -97,6 +95,18 @@ class ClientThread extends Thread {
                     System.out.print('\n' + msg.getSender() + "对" + useID + "说:" + msg.getContent()+"\n");
                 }else if(msg.getMsgType().equals(MessageType.COMM_MSG)){
                     System.out.println('\n'+msg.getSender() + "对" + msg.getGetSender()+ "说:" +  msg.getContent());
+                }else if(msg.getMsgType().equals(MessageType.FILE_SEND)){
+                    System.out.println('\n'+msg.getSender() + "对" + msg.getGetSender()+ "发送了" +  msg.getContent());
+                    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(msg.getbytes());
+                    FileOutputStream fio = new FileOutputStream("SockeT/src/main/resources/a.jpg");
+                    int size;
+                    byte[] bytes =new byte[256];
+                    while ((size = byteArrayInputStream.read(bytes))!=-1){
+                        fio.write(bytes,0,size);
+                        fio.flush();
+                    }
+                    fio.close();
+                    byteArrayInputStream.close();
                 }
 
 

@@ -2,9 +2,7 @@ package commom;
 
 import utils.getString;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -83,6 +81,42 @@ public class SeconMenu implements Serializable {
 
     }
 
+    public static  void sendFile(){
+        Scanner scanner = new Scanner(System.in);
+        String OtherID;
+        do {
+            OtherID = scanner.nextLine();
+        } while (OtherID.length() == 0);
+        System.out.println("请输入想发送的文件:");
+        String File = scanner.nextLine();
+        try {
+            FileInputStream fi = new FileInputStream("SockeT/src/main/resources/"+File);
+            byte[] bytes = new byte[256];
+            Integer size;
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            while ( (size = fi.read(bytes)) != -1){
+                byteArrayOutputStream.write(bytes,0,size);
+            }
+            fi.close();
+            ObjectOutputStream objMsg = new ObjectOutputStream(ManagerSocketThread.getClientTHread(user.getId()).getSocketClient().getOutputStream());
+            Message msg = new Message();
+            msg.setMsgType(MessageType.FILE_SEND);
+            msg.setSender(user.getId());
+            msg.setGetSender(OtherID);
+            msg.setContent(File);
+            msg.setbytes(byteArrayOutputStream.toByteArray());
+            objMsg.writeObject(msg);
+            objMsg.flush();
+            byteArrayOutputStream.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("发送文件路径错误");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("发送文件读取错误");
+            e.printStackTrace();
+        }
+    }
+
 
     public static boolean SecondMenu(User user) {
         SeconMenu.user = user;
@@ -110,7 +144,9 @@ public class SeconMenu implements Serializable {
                     hsiper();
                     break;
                 case "4":
-                    System.out.println("\t" + " 4.  发送信息");
+                    sendOnLine();
+                    System.out.println("\t" + "请输入想发送文件的对象");
+                    sendFile();
                     break;
                 case "5":
                     senEnd();

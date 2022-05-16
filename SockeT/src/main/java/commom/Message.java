@@ -10,6 +10,7 @@ public class Message implements Serializable {
     private  String content;
     private  String sendTime;
     private  String msgType;//在接口中定义已知的消息类型
+    private  byte[] bytes;
 
     public String getMsgType() {
         return msgType;
@@ -17,6 +18,14 @@ public class Message implements Serializable {
 
     public void setMsgType(String msgType) {
         this.msgType = msgType;
+    }
+
+    public byte[] getbytes() {
+        return bytes;
+    }
+
+    public void setbytes(byte[] bytes) {
+        this.bytes = bytes;
     }
 
     public  Message(){}

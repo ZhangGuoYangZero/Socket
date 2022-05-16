@@ -20,6 +20,7 @@ public interface MessageType extends Serializable {
     public  static  final  String END_get = "7";
     public  static  final  String END_res = "8";
     public  static  final  String hisper = "9";
+    public  static  final  String FILE_SEND = "10";
 
 }
 
