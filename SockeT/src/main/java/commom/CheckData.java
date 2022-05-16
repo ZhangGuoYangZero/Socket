@@ -106,6 +106,7 @@ class ClientThread extends Thread {
                         fio.flush();
                     }
                     fio.close();
+                    byteArrayInputStream.reset();
                     byteArrayInputStream.close();
                 }
 
